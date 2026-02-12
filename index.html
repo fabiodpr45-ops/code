@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Petit Monde - Accueil</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <h1 class="title">🎠 Petit Monde - Plusieurs jeux pour enfants</h1>
+
+    <section class="card">
+      <div class="topbar">
+        <div class="btn-row age-row" id="ageButtons">
+          <button data-age="1">1 an</button>
+          <button data-age="2">2 ans</button>
+          <button data-age="3">3 ans</button>
+          <button data-age="4">4 ans</button>
+          <button data-age="5">5 ans</button>
+        </div>
+        <button id="soundToggle" class="active">🔊 Son activé</button>
+      </div>
+      <p class="status" id="ageStatus">Âge choisi : 3 ans</p>
+      <p class="hint">Choisis un jeu. Chaque jeu est sur une page différente.</p>
+    </section>
+
+    <section class="card">
+      <h2>Jeux disponibles</h2>
+      <div class="nav-grid">
+        <a class="nav-link" href="pages/couleurs.html">🌈 Jeu des couleurs</a>
+        <a class="nav-link" href="pages/animaux.html">🐾 Animaux rigolos</a>
+        <a class="nav-link" href="pages/ballons.html">🎈 Compter les ballons</a>
+        <a class="nav-link" href="pages/formes.html">🔺 Formes magiques</a>
+        <a class="nav-link" href="pages/piano.html">🎹 Piano bébé</a>
+        <a class="nav-link" href="pages/memoire.html">🧠 Mini mémoire</a>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    PetitMonde.wireSharedUI();
+  </script>
+</body>
+</html>
