@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Petit Monde - Jeux par âge</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <h1 class="title">🎠 Petit Monde - Jeux par âge (1 à 5 ans)</h1>
+
+    <section class="card">
+      <div class="topbar">
+        <div class="btn-row age-row" id="ageButtons">
+          <button data-age="1">1 an</button>
+          <button data-age="2">2 ans</button>
+          <button data-age="3">3 ans</button>
+          <button data-age="4">4 ans</button>
+          <button data-age="5">5 ans</button>
+        </div>
+        <button id="soundToggle" class="active" aria-label="Activer ou couper le son">🔊 Son activé</button>
+      </div>
+      <p class="status" id="ageStatus">Âge choisi : 3 ans</p>
+      <p class="hint" id="gameCountHint"></p>
+    </section>
+
+    <section class="card">
+      <h2>Jeux adaptés à l'âge sélectionné</h2>
+      <div id="gameList" class="game-grid"></div>
+    </section>
+
+    <section class="card">
+      <h2 id="currentGameTitle">Zone de jeu</h2>
+      <div id="playZone" class="play-zone"></div>
+      <p id="gameHint" class="hint">Choisis un jeu ci-dessus 👆</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    PetitMonde.initHub();
+  </script>
+</body>
+</html>
