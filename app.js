@@ -26,6 +26,9 @@
 
   function playTone(freq = 440, duration = 0.16, type = 'sine') {
     if (!readState().soundEnabled) return;
+  function playTone(freq = 440, duration = 0.16) {
+    const state = readState();
+    if (!state.soundEnabled) return;
     ensureAudioContext();
     if (!audioCtx) return;
     const osc = audioCtx.createOscillator();
@@ -34,6 +37,10 @@
     osc.frequency.value = freq;
     gain.gain.value = 0.001;
     gain.gain.exponentialRampToValueAtTime(0.16, audioCtx.currentTime + 0.02);
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    gain.gain.value = 0.001;
+    gain.gain.exponentialRampToValueAtTime(0.15, audioCtx.currentTime + 0.02);
     gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
     osc.connect(gain);
     gain.connect(audioCtx.destination);

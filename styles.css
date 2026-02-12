@@ -2,6 +2,7 @@
   --bg: #fff7e8;
   --card: #ffffff;
   --primary: #5b8cff;
+  --accent: #ff8fab;
   --ok: #49c88f;
   --text: #2d3250;
 }
@@ -35,6 +36,25 @@ button.active { background:var(--primary); color:#fff; }
 .emoji { font-size: clamp(2.4rem, 8vw, 4rem); background:transparent; }
 .big-circle {
   width:min(180px, 48vw); height:min(180px, 48vw); border-radius:50%; border:8px solid #fff;
+.title { text-align: center; margin: .3rem 0 1rem; font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
+.card { background: var(--card); border-radius: 18px; padding: 1rem; box-shadow: 0 8px 24px rgba(72,52,102,.08); margin-bottom: 1rem; }
+.btn-row { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+button, .nav-link {
+  border:0; padding:.65rem .95rem; border-radius:999px; font-size:1rem; cursor:pointer;
+  background:#edf2ff; color:#253058; text-decoration:none; display:inline-block;
+}
+button.active, .nav-link.active { background:var(--primary); color:#fff; }
+.nav-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(210px,1fr)); gap:.7rem; }
+.nav-link { text-align:center; }
+.status { margin:.7rem 0; font-weight:700; min-height:1.3em; }
+.hint { color:#68739f; font-size:.95rem; }
+.play-zone {
+  min-height: 260px; display:grid; place-items:center;
+  border:2px dashed #d7def7; border-radius:16px; padding:1rem; background:#fbfcff;
+}
+.emoji { font-size: clamp(3rem, 10vw, 6rem); background:transparent; }
+.big-circle {
+  width:min(180px, 50vw); height:min(180px, 50vw); border-radius:50%; border:8px solid #fff;
   box-shadow: 0 8px 22px rgba(0,0,0,.12);
 }
 .counter { font-size:clamp(2.2rem, 8vw, 4rem); font-weight:800; margin:.2rem 0; }
@@ -47,3 +67,5 @@ button.active { background:var(--primary); color:#fff; }
 }
 .piano{ display:flex; gap:.5rem; flex-wrap:wrap; justify-content:center; }
 .note{ width:56px; height:120px; border-radius:10px; background:#fff; border:2px solid #d5defc; }
+.age-row { margin-bottom:.8rem; }
+.topbar { display:flex; justify-content:space-between; gap:.8rem; flex-wrap:wrap; }

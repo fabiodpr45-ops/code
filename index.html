@@ -34,12 +34,29 @@
       <h2 id="currentGameTitle">Zone de jeu</h2>
       <div id="playZone" class="play-zone"></div>
       <p id="gameHint" class="hint">Choisis un jeu ci-dessus 👆</p>
+        <button id="soundToggle" class="active">🔊 Son activé</button>
+      </div>
+      <p class="status" id="ageStatus">Âge choisi : 3 ans</p>
+      <p class="hint">Choisis un jeu. Chaque jeu est sur une page différente.</p>
+    </section>
+
+    <section class="card">
+      <h2>Jeux disponibles</h2>
+      <div class="nav-grid">
+        <a class="nav-link" href="pages/couleurs.html">🌈 Jeu des couleurs</a>
+        <a class="nav-link" href="pages/animaux.html">🐾 Animaux rigolos</a>
+        <a class="nav-link" href="pages/ballons.html">🎈 Compter les ballons</a>
+        <a class="nav-link" href="pages/formes.html">🔺 Formes magiques</a>
+        <a class="nav-link" href="pages/piano.html">🎹 Piano bébé</a>
+        <a class="nav-link" href="pages/memoire.html">🧠 Mini mémoire</a>
+      </div>
     </section>
   </main>
 
   <script src="app.js"></script>
   <script>
     PetitMonde.initHub();
+    PetitMonde.wireSharedUI();
   </script>
 </body>
 </html>
