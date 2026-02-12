@@ -15,6 +15,27 @@ body {
   min-height: 100vh;
 }
 .app { max-width: 980px; margin: 0 auto; padding: 1rem; }
+.title { text-align: center; margin: .3rem 0 1rem; font-size: clamp(1.5rem, 2.4vw, 2.2rem); }
+.card { background: var(--card); border-radius: 18px; padding: 1rem; box-shadow: 0 8px 24px rgba(72,52,102,.08); margin-bottom: 1rem; }
+.topbar { display:flex; justify-content:space-between; gap:.8rem; flex-wrap:wrap; }
+.btn-row { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
+button {
+  border:0; padding:.65rem .95rem; border-radius:999px; font-size:1rem; cursor:pointer;
+  background:#edf2ff; color:#253058;
+}
+button.active { background:var(--primary); color:#fff; }
+.age-row { margin-bottom:.8rem; }
+.status { margin:.7rem 0; font-weight:700; min-height:1.3em; }
+.hint { color:#68739f; font-size:.95rem; }
+.game-grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap:.6rem; }
+.game-pill { text-align:left; }
+.play-zone {
+  min-height: 280px; display:grid; place-items:center;
+  border:2px dashed #d7def7; border-radius:16px; padding:1rem; background:#fbfcff;
+}
+.emoji { font-size: clamp(2.4rem, 8vw, 4rem); background:transparent; }
+.big-circle {
+  width:min(180px, 48vw); height:min(180px, 48vw); border-radius:50%; border:8px solid #fff;
 .title { text-align: center; margin: .3rem 0 1rem; font-size: clamp(1.6rem, 2.5vw, 2.2rem); }
 .card { background: var(--card); border-radius: 18px; padding: 1rem; box-shadow: 0 8px 24px rgba(72,52,102,.08); margin-bottom: 1rem; }
 .btn-row { display:flex; flex-wrap:wrap; gap:.6rem; align-items:center; }
