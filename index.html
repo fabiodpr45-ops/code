@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Petit Monde - Jeux pour enfants</title>
+  <style>
+    :root {
+      --bg: #fff7e8;
+      --card: #ffffff;
+      --primary: #5b8cff;
+      --accent: #ff8fab;
+      --ok: #49c88f;
+      --text: #2d3250;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Nunito", "Arial", sans-serif;
+      background: radial-gradient(circle at top, #fff9ef, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    .app {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .title {
+      text-align: center;
+      margin: 0.5rem 0 1rem;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 18px;
+      padding: 1rem;
+      box-shadow: 0 8px 24px rgba(72, 52, 102, 0.08);
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+    }
+
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    button {
+      border: 0;
+      padding: 0.6rem 0.9rem;
+      border-radius: 999px;
+      font-size: 1rem;
+      cursor: pointer;
+      background: #edf2ff;
+      color: #253058;
+      transition: transform 0.12s ease, background 0.2s ease;
+    }
+
+    button:hover { transform: translateY(-1px); }
+    button:active { transform: scale(0.98); }
+    button.active { background: var(--primary); color: #fff; }
+    button.game.active { background: var(--accent); }
+
+    .status {
+      margin: 0.8rem 0;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #3b426a;
+      min-height: 1.4em;
+    }
+
+    .play-zone {
+      min-height: 250px;
+      display: grid;
+      place-items: center;
+      border: 2px dashed #d7def7;
+      border-radius: 16px;
+      padding: 0.8rem;
+      background: #fbfcff;
+    }
+
+    .big-circle {
+      width: min(180px, 50vw);
+      height: min(180px, 50vw);
+      border-radius: 50%;
+      border: 8px solid #fff;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+      transition: transform 0.2s ease;
+    }
+
+    .big-circle.pop { transform: scale(1.06); }
+
+    .emoji {
+      font-size: clamp(3rem, 10vw, 6rem);
+      line-height: 1;
+      user-select: none;
+    }
+
+    .counter {
+      font-size: clamp(2.2rem, 8vw, 4rem);
+      font-weight: 800;
+      margin: 0.3rem 0;
+      color: #2f3a65;
+    }
+
+    .hint {
+      text-align: center;
+      margin-top: 0.6rem;
+      color: #68739f;
+      font-size: 0.95rem;
+    }
+
+    .celebration {
+      color: var(--ok);
+      font-weight: 800;
+      animation: pulse 0.7s ease-in-out infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.03); }
+    }
+  </style>
+</head>
+<body>
+  <main class="app">
+    <h1 class="title">🎈 Petit Monde : jouer et apprendre</h1>
+
+    <section class="grid">
+      <article class="card">
+        <h2>1) Choisir l'âge</h2>
+        <div class="btn-row" id="ageButtons">
+          <button data-age="1">1 an</button>
+          <button data-age="2">2 ans</button>
+          <button data-age="3" class="active">3 ans</button>
+          <button data-age="4">4 ans</button>
+          <button data-age="5">5 ans</button>
+        </div>
+        <p class="status" id="ageStatus">Âge choisi : 3 ans</p>
+      </article>
+
+      <article class="card">
+        <h2>2) Choisir un jeu</h2>
+        <div class="btn-row" id="gameButtons">
+          <button class="game active" data-game="colors">Jeu des couleurs</button>
+          <button class="game" data-game="animals">Animaux rigolos</button>
+          <button class="game" data-game="count">Compter les ballons</button>
+        </div>
+        <p class="status" id="gameStatus">Jeu actuel : Jeu des couleurs</p>
+      </article>
+    </section>
+
+    <section class="card" style="margin-top:1rem;">
+      <h2>3) Zone de jeu</h2>
+      <div class="play-zone" id="playZone"></div>
+      <p class="hint" id="hintText">Touchez les boutons pour jouer 👆</p>
+    </section>
+  </main>
+
+  <script>
+    const state = {
+      age: 3,
+      game: 'colors',
+      colorIndex: 0,
+      animalIndex: 0,
+      count: 0,
+      goal: 3,
+    };
+
+    const colors = [
+      { name: 'Rouge', value: '#ff595e' },
+      { name: 'Bleu', value: '#5b8cff' },
+      { name: 'Vert', value: '#49c88f' },
+      { name: 'Jaune', value: '#ffca3a' },
+      { name: 'Violet', value: '#9d4edd' },
+    ];
+
+    const animals = [
+      { emoji: '🐶', name: 'Chien', sound: 'Wouf wouf !' },
+      { emoji: '🐱', name: 'Chat', sound: 'Miaou !' },
+      { emoji: '🐮', name: 'Vache', sound: 'Meuh !' },
+      { emoji: '🦆', name: 'Canard', sound: 'Coin coin !' },
+      { emoji: '🐸', name: 'Grenouille', sound: 'Croa croa !' },
+    ];
+
+    const ageStatus = document.getElementById('ageStatus');
+    const gameStatus = document.getElementById('gameStatus');
+    const playZone = document.getElementById('playZone');
+    const hintText = document.getElementById('hintText');
+
+    document.getElementById('ageButtons').addEventListener('click', (event) => {
+      const btn = event.target.closest('button[data-age]');
+      if (!btn) return;
+
+      state.age = Number(btn.dataset.age);
+      state.goal = Math.max(2, state.age + 1);
+      state.count = 0;
+
+      document.querySelectorAll('#ageButtons button').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      ageStatus.textContent = `Âge choisi : ${state.age} ans`;
+      renderGame();
+    });
+
+    document.getElementById('gameButtons').addEventListener('click', (event) => {
+      const btn = event.target.closest('button[data-game]');
+      if (!btn) return;
+
+      state.game = btn.dataset.game;
+      document.querySelectorAll('#gameButtons button').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const names = {
+        colors: 'Jeu des couleurs',
+        animals: 'Animaux rigolos',
+        count: 'Compter les ballons',
+      };
+
+      gameStatus.textContent = `Jeu actuel : ${names[state.game]}`;
+      renderGame();
+    });
+
+    function renderGame() {
+      playZone.innerHTML = '';
+
+      if (state.game === 'colors') {
+        hintText.textContent = `Âge ${state.age} : appuie sur le rond pour changer de couleur.`;
+
+        const color = colors[state.colorIndex % colors.length];
+        const button = document.createElement('button');
+        button.className = 'big-circle';
+        button.style.background = color.value;
+        button.setAttribute('aria-label', 'Changer de couleur');
+
+        const label = document.createElement('p');
+        label.className = 'status';
+        label.textContent = `Couleur : ${color.name}`;
+
+        button.addEventListener('click', () => {
+          state.colorIndex += 1;
+          const next = colors[state.colorIndex % colors.length];
+          button.style.background = next.value;
+          label.textContent = `Couleur : ${next.name}`;
+          button.classList.remove('pop');
+          void button.offsetWidth;
+          button.classList.add('pop');
+        });
+
+        const container = document.createElement('div');
+        container.style.textAlign = 'center';
+        container.append(button, label);
+        playZone.appendChild(container);
+      }
+
+      if (state.game === 'animals') {
+        hintText.textContent = `Âge ${state.age} : appuie sur l'animal pour entendre son cri.`;
+
+        const current = animals[state.animalIndex % animals.length];
+        const animal = document.createElement('button');
+        animal.className = 'emoji';
+        animal.textContent = current.emoji;
+        animal.setAttribute('aria-label', `Animal ${current.name}`);
+
+        const text = document.createElement('p');
+        text.className = 'status';
+        text.textContent = `${current.name} : ${current.sound}`;
+
+        animal.addEventListener('click', () => {
+          state.animalIndex += 1;
+          const next = animals[state.animalIndex % animals.length];
+          animal.textContent = next.emoji;
+          text.textContent = `${next.name} : ${next.sound}`;
+        });
+
+        const container = document.createElement('div');
+        container.style.textAlign = 'center';
+        container.append(animal, text);
+        playZone.appendChild(container);
+      }
+
+      if (state.game === 'count') {
+        hintText.textContent = `Âge ${state.age} : compte jusqu'à ${state.goal} en touchant le ballon.`;
+
+        const balloon = document.createElement('button');
+        balloon.className = 'emoji';
+        balloon.textContent = '🎈';
+
+        const countLabel = document.createElement('p');
+        countLabel.className = 'counter';
+        countLabel.textContent = state.count;
+
+        const msg = document.createElement('p');
+        msg.className = 'status';
+        msg.textContent = 'On commence !';
+
+        balloon.addEventListener('click', () => {
+          state.count += 1;
+          countLabel.textContent = state.count;
+
+          if (state.count >= state.goal) {
+            msg.className = 'status celebration';
+            msg.textContent = `Bravo 🎉 Tu as compté jusqu'à ${state.goal} !`;
+            state.count = 0;
+          } else {
+            msg.className = 'status';
+            msg.textContent = `Encore ${state.goal - state.count} !`;
+          }
+        });
+
+        const container = document.createElement('div');
+        container.style.textAlign = 'center';
+        container.append(balloon, countLabel, msg);
+        playZone.appendChild(container);
+      }
+    }
+
+    renderGame();
+  </script>
+</body>
+</html>
