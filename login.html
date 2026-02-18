@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPR45 - Connexion</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="login">
+  <main class="container auth-container">
+    <section class="card auth-card">
+      <div class="brand-wrap centered">
+        <img src="assets/dpr-logo.svg" alt="Logo DPR45" class="brand-logo" />
+      </div>
+      <h1>Connexion</h1>
+      <p class="help-text">Entre tes identifiants pour accéder au planning.</p>
+      <form id="loginForm" class="inline-form single-col">
+        <input id="loginInput" type="text" placeholder="Login" required />
+        <input id="passwordInput" type="password" placeholder="Mot de passe" required />
+        <button type="submit">Se connecter</button>
+      </form>
+      <p id="loginError" class="error-text"></p>
+      <p class="help-text small">Login : <strong>DPR45</strong> · Mot de passe : <strong>Isolation45</strong></p>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
