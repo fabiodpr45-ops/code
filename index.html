@@ -3,60 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Petit Monde - Jeux par âge</title>
+  <title>Planning Chantier - Bases de données</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <main class="app">
-    <h1 class="title">🎠 Petit Monde - Jeux par âge (1 à 5 ans)</h1>
+  <main class="container">
+    <header class="page-header">
+      <h1>📋 Gestion des bases</h1>
+      <p>Configure tes ouvriers, sous-traitants et chantiers.</p>
+      <a class="btn-link" href="pages/planning.html">➡️ Aller au planning</a>
+    </header>
 
-    <section class="card">
-      <div class="topbar">
-        <div class="btn-row age-row" id="ageButtons">
-          <button data-age="1">1 an</button>
-          <button data-age="2">2 ans</button>
-          <button data-age="3">3 ans</button>
-          <button data-age="4">4 ans</button>
-          <button data-age="5">5 ans</button>
-        </div>
-        <button id="soundToggle" class="active" aria-label="Activer ou couper le son">🔊 Son activé</button>
-      </div>
-      <p class="status" id="ageStatus">Âge choisi : 3 ans</p>
-      <p class="hint" id="gameCountHint"></p>
+    <section class="card" id="workersSection">
+      <h2>👷 Ouvriers</h2>
+      <form id="workerForm" class="inline-form">
+        <input id="workerName" type="text" placeholder="Nom de l'ouvrier" required />
+        <input id="workerRole" type="text" placeholder="Métier (maçon, électricien...)" required />
+        <button type="submit">Ajouter</button>
+      </form>
+      <ul id="workerList" class="entity-list"></ul>
     </section>
 
-    <section class="card">
-      <h2>Jeux adaptés à l'âge sélectionné</h2>
-      <div id="gameList" class="game-grid"></div>
+    <section class="card" id="subsSection">
+      <h2>🏗️ Sous-traitants</h2>
+      <form id="subForm" class="inline-form">
+        <input id="subCompany" type="text" placeholder="Entreprise" required />
+        <input id="subContact" type="text" placeholder="Contact" required />
+        <button type="submit">Ajouter</button>
+      </form>
+      <ul id="subList" class="entity-list"></ul>
     </section>
 
-    <section class="card">
-      <h2 id="currentGameTitle">Zone de jeu</h2>
-      <div id="playZone" class="play-zone"></div>
-      <p id="gameHint" class="hint">Choisis un jeu ci-dessus 👆</p>
-        <button id="soundToggle" class="active">🔊 Son activé</button>
-      </div>
-      <p class="status" id="ageStatus">Âge choisi : 3 ans</p>
-      <p class="hint">Choisis un jeu. Chaque jeu est sur une page différente.</p>
-    </section>
-
-    <section class="card">
-      <h2>Jeux disponibles</h2>
-      <div class="nav-grid">
-        <a class="nav-link" href="pages/couleurs.html">🌈 Jeu des couleurs</a>
-        <a class="nav-link" href="pages/animaux.html">🐾 Animaux rigolos</a>
-        <a class="nav-link" href="pages/ballons.html">🎈 Compter les ballons</a>
-        <a class="nav-link" href="pages/formes.html">🔺 Formes magiques</a>
-        <a class="nav-link" href="pages/piano.html">🎹 Piano bébé</a>
-        <a class="nav-link" href="pages/memoire.html">🧠 Mini mémoire</a>
-      </div>
+    <section class="card" id="sitesSection">
+      <h2>🏢 Chantiers</h2>
+      <form id="siteForm" class="inline-form site-form">
+        <input id="siteName" type="text" placeholder="Nom du chantier" required />
+        <input id="siteLocation" type="text" placeholder="Adresse / ville" required />
+        <label>Début <input id="siteStart" type="date" required /></label>
+        <label>Fin <input id="siteEnd" type="date" required /></label>
+        <button type="submit">Ajouter</button>
+      </form>
+      <ul id="siteList" class="entity-list"></ul>
     </section>
   </main>
 
   <script src="app.js"></script>
-  <script>
-    PetitMonde.initHub();
-    PetitMonde.wireSharedUI();
-  </script>
 </body>
 </html>
