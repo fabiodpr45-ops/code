@@ -427,6 +427,144 @@
     });
 
     return `<div class="team-grid">${workerCards.concat(subCards).join('') || '<p class="empty">Aucune équipe.</p>'}</div>`;
+
+      writeData(data);
+      bulkSiteForm.reset();
+      render();
+      if (!added) {
+        alert('Aucune ligne valide. Vérifie le format Nom|Lieu|AAAA-MM-JJ|AAAA-MM-JJ');
+      }
+    });
+
+    document.body.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (!target.matches('button[data-type][data-id]')) return;
+
+      const type = target.dataset.type;
+      const id = target.dataset.id;
+      const data = readData();
+
+      if (type === 'worker') {
+        data.workers = data.workers.filter((w) => w.id !== id);
+        data.sites = data.sites.map((site) => ({
+          ...site,
+          workerIds: (site.workerIds || []).filter((workerId) => workerId !== id)
+        }));
+      }
+
+      if (type === 'sub') {
+        data.subcontractors = data.subcontractors.filter((s) => s.id !== id);
+        data.sites = data.sites.map((site) => ({
+          ...site,
+          subcontractorIds: (site.subcontractorIds || []).filter((subId) => subId !== id)
+        }));
+      }
+
+      if (type === 'site') {
+        data.sites = data.sites.filter((s) => s.id !== id);
+      }
+
+      writeData(data);
+      render();
+    });
+
+    render();
+  }
+
+  function dateInRange(day, start, end) {
+    return day >= start && day <= end;
+  }
+
+  function renderTimeline(data) {
+    return data.sites
+      .slice()
+      .sort((a, b) => new Date(a.startDate) - new Date(b.startDate))
+      .map((site) => {
+        const workers = (site.workerIds || [])
+          .map((id) => data.workers.find((worker) => worker.id === id))
+          .filter(Boolean)
+          .map((w) => w.name)
+          .join(', ');
+
+        const subs = (site.subcontractorIds || [])
+          .map((id) => data.subcontractors.find((sub) => sub.id === id))
+          .filter(Boolean)
+          .map((s) => s.company)
+          .join(', ');
+
+        return `
+          <article class="timeline-item">
+            <h3>${site.name}</h3>
+            <p><strong>Lieu :</strong> ${site.location}</p>
+            <p><strong>Période :</strong> ${formatDate(site.startDate)} → ${formatDate(site.endDate)}</p>
+            <p><strong>Ouvriers :</strong> ${workers || 'Aucun'}</p>
+            <p><strong>Sous-traitants :</strong> ${subs || 'Aucun'}</p>
+          </article>
+        `;
+      })
+      .join('');
+  }
+
+  function renderCalendar(data, monthValue) {
+    const base = monthValue ? new Date(`${monthValue}-01`) : new Date();
+    const year = base.getFullYear();
+    const month = base.getMonth();
+    const days = new Date(year, month + 1, 0).getDate();
+
+    const labels = ['Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam', 'Dim'];
+    let html = '<div class="calendar-grid">';
+    html += labels.map((label) => `<div class="calendar-head">${label}</div>`).join('');
+
+    const firstDay = new Date(year, month, 1);
+    const offset = (firstDay.getDay() + 6) % 7;
+    for (let i = 0; i < offset; i += 1) {
+      html += '<div class="calendar-cell empty"></div>';
+    }
+
+    for (let dayNum = 1; dayNum <= days; dayNum += 1) {
+      const dayDate = new Date(year, month, dayNum);
+      const chips = data.sites
+        .filter((site) => dateInRange(dayDate, new Date(site.startDate), new Date(site.endDate)))
+        .map((site) => `<span class="chip">${site.name}</span>`)
+        .join('');
+
+      html += `
+        <div class="calendar-cell">
+          <div class="calendar-day">${dayNum}</div>
+          <div class="chips">${chips || '<span class="muted">-</span>'}</div>
+        </div>
+      `;
+    }
+
+    html += '</div>';
+    return html;
+  }
+
+  function renderWorkload(data) {
+    const workerCards = data.workers.map((worker) => {
+      const assignedSites = data.sites.filter((site) => (site.workerIds || []).includes(worker.id));
+      return `
+        <article class="team-card">
+          <h3>👷 ${worker.name}</h3>
+          <p>${worker.role}</p>
+          <p><strong>Chantiers:</strong> ${assignedSites.map((s) => s.name).join(', ') || 'Aucun'}</p>
+        </article>
+      `;
+    });
+
+    const subCards = data.subcontractors.map((sub) => {
+      const assignedSites = data.sites.filter((site) => (site.subcontractorIds || []).includes(sub.id));
+      return `
+        <article class="team-card">
+          <h3>🏗️ ${sub.company}</h3>
+          <p>${sub.contact}</p>
+          <p><strong>Chantiers:</strong> ${assignedSites.map((s) => s.name).join(', ') || 'Aucun'}</p>
+        </article>
+      `;
+    });
+
+    return `<div class="team-grid">${workerCards.concat(subCards).join('') || '<p class="empty">Aucune équipe.</p>'}</div>`;
   }
 
   function initPlanningPage() {
@@ -580,6 +718,12 @@
     const assignSite = document.getElementById('assignSite');
     const assignWorker = document.getElementById('assignWorker');
     const assignSub = document.getElementById('assignSub');
+    const planningView = document.getElementById('planningView');
+    const viewSwitch = document.getElementById('viewSwitch');
+    const calendarControls = document.getElementById('calendarControls');
+    const calendarMonth = document.getElementById('calendarMonth');
+
+    let currentView = 'timeline';
     const timeline = document.getElementById('timeline');
 
     function fillSelect(selectEl, entries, firstLabel, mapper) {
@@ -607,6 +751,24 @@
       fillSelect(assignSub, data.subcontractors, 'Aucun sous-traitant', (sub) => `${sub.company} - ${sub.contact}`);
 
       if (!data.sites.length) {
+        planningView.innerHTML = '<p class="empty">Ajoute d\'abord des chantiers depuis la page Bases.</p>';
+        return;
+      }
+
+      if (currentView === 'timeline') {
+        calendarControls.classList.add('hidden');
+        planningView.innerHTML = renderTimeline(data);
+      } else if (currentView === 'calendar') {
+        calendarControls.classList.remove('hidden');
+        if (!calendarMonth.value) {
+          const now = new Date();
+          calendarMonth.value = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+        }
+        planningView.innerHTML = renderCalendar(data, calendarMonth.value);
+      } else {
+        calendarControls.classList.add('hidden');
+        planningView.innerHTML = renderWorkload(data);
+      }
         timeline.innerHTML = '<p class="empty">Ajoute d\'abord des chantiers depuis la page Bases.</p>';
         return;
       }
@@ -667,6 +829,27 @@
       writeData(data);
       assignForm.reset();
       renderPlanning();
+    });
+
+    viewSwitch.addEventListener('click', (event) => {
+      const target = event.target;
+      if (!(target instanceof HTMLElement)) return;
+      if (!target.matches('button[data-view]')) return;
+
+      currentView = target.dataset.view;
+      viewSwitch.querySelectorAll('button').forEach((button) => button.classList.remove('active'));
+      target.classList.add('active');
+      renderPlanning();
+    });
+
+    calendarMonth.addEventListener('change', renderPlanning);
+
+    renderPlanning();
+  }
+
+  requireAuth();
+  wireLogout();
+  initLoginPage();
     });
 
     renderPlanning();
