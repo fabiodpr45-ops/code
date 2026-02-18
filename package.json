@@ -1,0 +1,44 @@
+{
+  "name": "planning-chantier-desktop",
+  "version": "1.0.0",
+  "description": "Application desktop de planning chantier (ouvriers, sous-traitants, chantiers)",
+  "main": "electron-main.js",
+  "scripts": {
+    "start": "electron .",
+    "build:win": "electron-builder --win nsis",
+    "pack:win": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.planningchantier.desktop",
+    "productName": "Planning Chantier",
+    "files": [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "pages/**/*",
+      "electron-main.js",
+      "login.html",
+      "assets/**/*"
+    ],
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "shortcutName": "Planning Chantier"
+    }
+  }
+}

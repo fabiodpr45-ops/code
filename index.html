@@ -3,6 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPR45 - Base de données</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-page="database">
+  <main class="container">
+    <header class="page-header">
+      <div class="header-top">
+        <img src="assets/dpr-logo.svg" alt="Logo DPR45" class="brand-logo" />
+        <button id="logoutButton" class="secondary">Déconnexion</button>
+      </div>
+      <h1>📋 Base de données chantier</h1>
+      <p>Gère les ouvriers, sous-traitants et chantiers.</p>
+      <nav class="tabs">
+        <a class="btn-link" href="index.html">Bases</a>
+        <a class="btn-link" href="pages/planning.html">Planning</a>
+      </nav>
+    </header>
+
+    <section class="card" id="workersSection">
+      <h2>👷 Ouvriers</h2>
+      <form id="workerForm" class="inline-form">
+        <input id="workerName" type="text" placeholder="Nom de l'ouvrier" required />
+        <input id="workerRole" type="text" placeholder="Métier (maçon, électricien...)" required />
+        <button type="submit">Ajouter</button>
+      </form>
+      <ul id="workerList" class="entity-list"></ul>
+    </section>
+
+    <section class="card" id="subsSection">
+      <h2>🏗️ Sous-traitants</h2>
+      <form id="subForm" class="inline-form">
+        <input id="subCompany" type="text" placeholder="Entreprise" required />
+        <input id="subContact" type="text" placeholder="Contact" required />
+        <button type="submit">Ajouter</button>
+      </form>
+      <ul id="subList" class="entity-list"></ul>
+    </section>
+
   <title>Planning Chantier - Bases de données</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -43,6 +81,14 @@
         <label>Fin <input id="siteEnd" type="date" required /></label>
         <button type="submit">Ajouter</button>
       </form>
+
+      <h3>Ajouter plusieurs chantiers en même temps</h3>
+      <p class="help-text">Format une ligne = <code>Nom|Lieu|AAAA-MM-JJ|AAAA-MM-JJ</code></p>
+      <form id="bulkSiteForm" class="single-col">
+        <textarea id="bulkSitesInput" rows="6" placeholder="Chantier 1|Orléans|2026-03-01|2026-03-10&#10;Chantier 2|Montargis|2026-03-05|2026-03-20"></textarea>
+        <button type="submit">Ajouter en lot</button>
+      </form>
+
       <ul id="siteList" class="entity-list"></ul>
     </section>
   </main>
