@@ -1,37 +1,27 @@
 # Planning Chantier DPR45 (Web + Desktop)
 
+Application simple de gestion de planning chantier avec 4 pages :
+1. **Connexion** (login / mot de passe)
+2. **Chantiers** (ajout, édition, suppression)
+3. **Équipes & sous-traitants**
+4. **Planning** (vues Liste, Timeline, Mois, Charge équipes)
+
 ## Connexion
 - **Login** : `DPR45`
 - **Mot de passe** : `Isolation45`
 
-## Fonctionnalités
-- Base de données Ouvriers / Sous-traitants / Chantiers
-- Ajout unitaire et **ajout en lot** de chantiers (plusieurs en même temps)
-- Affectation des ouvriers et sous-traitants aux chantiers
-- Plusieurs vues planning :
-  - Timeline
-  - Calendrier mensuel
-  - Charge équipes
-
-## Générer un fichier `.exe` (Windows)
-
-### Option 1 — Script automatique
-1. Installer Node.js LTS.
-2. Lancer `build-exe.bat`.
-3. Récupérer l'installeur `.exe` dans `dist/`.
-
-### Option 2 — Ligne de commande
-```bash
-npm install
-npm run build:win
-```
-
-Le build produit :
-- un installeur NSIS (`.exe`)
-- une version portable (`.exe`)
+## Données gérées
+- Chantiers : nom, lieu, chef d'équipe, interne/sous-traité, date de démarrage, date de fin, durée estimée.
+- Équipes : nom, chef d'équipe, type (interne ou sous-traitant), entreprise.
 
 ## Lancement desktop en dev
 ```bash
 npm install
 npm run start
+```
+
+## Générer un `.exe` (Windows)
+```bash
+npm install
+npm run build:win
 ```
