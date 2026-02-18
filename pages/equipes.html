@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPR45 - Équipes</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body data-page="teams">
+  <main class="container app-shell">
+    <header class="card header-card">
+      <div class="header-top">
+        <div class="brand-wrap">
+          <img src="../assets/dpr-logo.svg" alt="Logo DPR45" class="brand-logo" />
+        </div>
+        <button id="logoutButton" class="secondary">Déconnexion</button>
+      </div>
+      <h1>Équipes & sous-traitants</h1>
+      <p>Référence les équipes internes et les sous-traitants.</p>
+      <nav class="tabs">
+        <a class="btn-link" href="chantiers.html">Chantiers</a>
+        <a class="btn-link active-tab" href="equipes.html">Équipes & sous-traitants</a>
+        <a class="btn-link" href="planning.html">Planning</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2 id="teamFormTitle">Nouvelle équipe</h2>
+      <form id="teamForm" class="inline-form">
+        <input type="hidden" id="teamId" />
+        <input id="teamName" type="text" placeholder="Nom d'équipe" required />
+        <input id="teamLeader" type="text" placeholder="Chef d'équipe" required />
+        <select id="teamType" required>
+          <option value="internal">Interne</option>
+          <option value="subcontractor">Sous-traitant</option>
+        </select>
+        <input id="teamCompany" type="text" placeholder="Entreprise (si sous-traitant)" />
+        <button type="submit" id="teamSubmitButton">Ajouter</button>
+      </form>
+    </section>
+
+    <section class="card">
+      <h2>Liste des équipes</h2>
+      <ul id="teamList" class="entity-list"></ul>
+    </section>
+  </main>
+
+  <script src="../app.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPR45 - Chantiers</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body data-page="sites">
+  <main class="container app-shell">
+    <header class="card header-card">
+      <div class="header-top">
+        <div class="brand-wrap">
+          <img src="../assets/dpr-logo.svg" alt="Logo DPR45" class="brand-logo" />
+        </div>
+        <button id="logoutButton" class="secondary">Déconnexion</button>
+      </div>
+      <h1>Chantiers</h1>
+      <p>Ajoute, modifie ou supprime tous les chantiers.</p>
+      <nav class="tabs">
+        <a class="btn-link active-tab" href="chantiers.html">Chantiers</a>
+        <a class="btn-link" href="equipes.html">Équipes & sous-traitants</a>
+        <a class="btn-link" href="planning.html">Planning</a>
+      </nav>
+    </header>
+
+    <section class="card">
+      <h2 id="siteFormTitle">Nouveau chantier</h2>
+      <form id="siteForm" class="inline-form">
+        <input type="hidden" id="siteId" />
+        <input id="siteName" type="text" placeholder="Nom du chantier" required />
+        <input id="siteLocation" type="text" placeholder="Lieu" required />
+        <input id="siteLead" type="text" placeholder="Chef d'équipe" required />
+        <label class="checkbox-label">
+          <input id="siteIsSub" type="checkbox" />
+          Chantier sous-traité
+        </label>
+        <label>
+          Date démarrage
+          <input id="siteStart" type="date" required />
+        </label>
+        <label>
+          Date fin
+          <input id="siteEnd" type="date" required />
+        </label>
+        <label>
+          Durée estimée (jours)
+          <input id="siteDuration" type="number" min="1" step="1" placeholder="10" required />
+        </label>
+        <button type="submit" id="siteSubmitButton">Ajouter</button>
+      </form>
+      <p id="siteFormError" class="error-text"></p>
+    </section>
+
+    <section class="card">
+      <h2>Liste des chantiers</h2>
+      <ul id="siteList" class="entity-list"></ul>
+    </section>
+  </main>
+
+  <script src="../app.js"></script>
+</body>
+</html>
