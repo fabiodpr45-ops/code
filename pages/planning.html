@@ -3,6 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DPR45 - Planning</title>
+  <link rel="stylesheet" href="../styles.css" />
+</head>
+<body data-page="planning">
+  <main class="container app-shell">
+    <header class="page-header card header-card">
+      <div class="header-top">
+        <div class="brand-wrap">
+          <img src="../assets/dpr-logo.svg" alt="Logo DPR45" class="brand-logo" />
+        </div>
+        <button id="logoutButton" class="secondary">Déconnexion</button>
+      </div>
+      <h1>🗓️ Planning des chantiers</h1>
+      <p>Affecte les équipes puis choisis la vue de planning qui t’arrange.</p>
+      <nav class="tabs">
+        <a class="btn-link" href="../index.html">Bases</a>
+        <a class="btn-link active-tab" href="planning.html">Planning</a>
+      </nav>
+    </header>
+
+    <section class="cards-grid planning-grid">
+      <article class="card">
+        <h2>Affectations</h2>
+        <form id="assignForm" class="inline-form assignment-form">
+          <select id="assignSite" required></select>
+          <select id="assignWorker"></select>
+          <select id="assignSub"></select>
+          <button type="submit">Affecter</button>
+        </form>
+        <p class="help-text">Tu peux affecter un ouvrier, un sous-traitant, ou les deux sur le chantier sélectionné.</p>
+      </article>
+
+      <article class="card">
+        <div class="view-header">
+          <h2>Vues planning</h2>
+          <div class="view-switch" id="viewSwitch">
+            <button type="button" data-view="timeline" class="active">Timeline</button>
+            <button type="button" data-view="calendar">Calendrier</button>
+            <button type="button" data-view="workload">Charge équipes</button>
+          </div>
+        </div>
+        <div id="calendarControls" class="inline-form compact hidden">
+          <label>Mois <input type="month" id="calendarMonth" /></label>
+        </div>
+        <div id="planningView" class="timeline"></div>
+      </article>
+  <main class="container">
+    <header class="page-header">
+      <div class="header-top">
+        <img src="../assets/dpr-logo.svg" alt="Logo DPR45" class="brand-logo" />
+        <button id="logoutButton" class="secondary">Déconnexion</button>
+      </div>
+      <h1>🗓️ Planning des chantiers</h1>
+      <p>Affecte les équipes et change de vue planning.</p>
+      <nav class="tabs">
+        <a class="btn-link" href="../index.html">Bases</a>
+        <a class="btn-link" href="planning.html">Planning</a>
+      </nav>
   <title>Planning Chantier</title>
   <link rel="stylesheet" href="../styles.css" />
 </head>
@@ -32,12 +90,19 @@
           <button type="button" data-view="timeline" class="active">Timeline</button>
           <button type="button" data-view="calendar">Calendrier</button>
           <button type="button" data-view="workload">Charge</button>
+        <h2>Vues planning</h2>
+        <div class="view-switch" id="viewSwitch">
+          <button type="button" data-view="timeline" class="active">Timeline</button>
+          <button type="button" data-view="calendar">Calendrier</button>
+          <button type="button" data-view="workload">Charge équipes</button>
         </div>
       </div>
       <div id="calendarControls" class="inline-form compact hidden">
         <label>Mois <input type="month" id="calendarMonth" /></label>
       </div>
       <div id="planningView" class="timeline"></div>
+      <h2>Vue planning</h2>
+      <div id="timeline" class="timeline"></div>
     </section>
   </main>
 
